@@ -1,0 +1,3 @@
+Server started at 2023-10-01 10:00:00
+Client connected at 2023-10-01 10:05:00
+Client disconnected at 2023-10-01 10:15:00

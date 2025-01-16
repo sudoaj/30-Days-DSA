@@ -1,0 +1,5 @@
+Book A,10,15.99
+Book B,5,9.99
+Book C,7,12.49
+Invalid Record
+Book D,3,20.00

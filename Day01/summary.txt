@@ -1,0 +1,4 @@
+Total Sales Amount: $357.28
+Total Books Sold: 25
+Average Price Per Book Sold: $14.29
+Number of Invalid Records Skipped: 1
