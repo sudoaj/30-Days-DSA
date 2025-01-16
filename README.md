@@ -4,7 +4,7 @@
 ![Language](https://img.shields.io/badge/language-Python-orange)
 ![GitHub](https://img.shields.io/github/license/your-username/30-Days-DSA)
 
-Welcome to my 30-day journey of mastering Data Structures and Algorithms (DSA) using Object-Oriented Python! This repository contains daily coding exercises, notes, and resources to track my progress and improve my problem-solving skills.
+Welcome to my 30-day journey of mastering Data Structures and Algorithms (DSA) using Python! This repository contains daily coding exercises, notes, and resources to track my progress and improve my problem-solving skills.
 
 ---
 
