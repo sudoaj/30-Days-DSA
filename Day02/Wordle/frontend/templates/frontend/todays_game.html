@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle Game - Play</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 20px;
+        }
+        .guess-input {
+            font-size: 16px;
+            padding: 10px;
+            width: 200px;
+        }
+        .submit-button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+        .guesses {
+            margin-top: 20px;
+        }
+        .guess-item {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Wordle Game</h1>
+
+    {% if error_message %}
+        <p class="error-message">{{ error_message }}</p>
+    {% endif %}
+
+    {% if daily_word %}
+        <h2>Daily Word</h2>
+        <p>Remaining Attempts: {{ remaining_attempts }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="guess" maxlength="5" required class="guess-input" placeholder="Enter your guess">
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+
+        <div class="guesses">
+            <h3>Your Guesses:</h3>
+            <ul>
+                {% for guess in guesses %}
+                    <li class="guess-item">{{ guess.guess }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</body>
+</html>
