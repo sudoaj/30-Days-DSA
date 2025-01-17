@@ -3,8 +3,8 @@
 
 # Set environment variables for the superuser
 DJANGO_SUPERUSER_USERNAME=aj
-DJANGO_SUPERUSER_EMAIL=aj@aj.com
-DJANGO_SUPERUSER_PASSWORD=Elon2020?
+DJANGO_SUPERUSER_EMAIL=wordle@wordle.com
+DJANGO_SUPERUSER_PASSWORD=wordle2020
 
 # Run the Django shell to create the superuser
 echo "
