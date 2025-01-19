@@ -87,6 +87,31 @@ print(account)
 ### **Mid-Level**
 - [ ] Object-Oriented Programming: Classes, objects, inheritance, polymorphism, encapsulation, abstraction.
 - [ ] Advanced Data Structures: Comprehensions (list, dict, set), iterators, generators (`yield`), linked lists, binary trees.
+
+        # Advanced Data Structures
+        ## 1. Comprehensions
+        - **List Comprehensions**: A concise way to create lists by applying expressions and conditions to an iterable.
+        - **Dictionary Comprehensions**: Create dictionaries by specifying keys and values with conditions.
+        - **Set Comprehensions**: Similar to list comprehensions but create unique unordered collections.
+
+        ## 2. Iterators
+        - Objects that represent a stream of data, allowing traversal one element at a time.
+        - Used with `for` loops or manually via `next()` to process elements lazily.
+
+        ## 3. Generators
+        - Special functions using the `yield` keyword to produce a sequence of values lazily.
+        - Memory-efficient way of handling large data sets by yielding one value at a time.
+
+        ## 4. Linked Lists
+        - A data structure consisting of nodes where each node contains data and a reference to the next node.
+        - Types: Singly Linked Lists, Doubly Linked Lists, and Circular Linked Lists.
+
+        ## 5. Binary Trees
+        - Hierarchical data structures with a root node and at most two child nodes per parent.
+        - Types: Binary Search Trees, AVL Trees, and Heap Trees.
+        - Used in applications like searching, sorting, and hierarchical data storage.
+
+
 - [ ] Error Handling: Custom exceptions, exception chaining, proper use of `finally`.
 - [ ] Modules and Packages: Importing, creating, and managing custom packages, using `__init__.py`.
 - [ ] Functional Programming: `map`, `filter`, `reduce`, lambdas, closures, decorators.
