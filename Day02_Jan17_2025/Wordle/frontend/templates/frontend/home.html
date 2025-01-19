@@ -4,25 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wordle Game - Home</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
-        .play-button {
-            font-size: 20px;
-            padding: 15px 30px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .play-button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
 </head>
 <body>
     <h1>Welcome to Wordle</h1>
