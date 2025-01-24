@@ -1,0 +1,196 @@
+.
+├── Day01_Jan16_2025
+│   ├── 001_data_types.ipynb
+│   ├── 002_basic_data_structures.ipynb
+│   ├── 003_contorl_flow.ipynb
+│   ├── 004_functions.ipynb
+│   ├── 005_file_handling copy.ipynb
+│   ├── 005_file_handling.ipynb
+│   ├── Resources
+│   │   ├── sales.txt
+│   │   └── server_log.txt
+│   ├── day01_basic_python.py
+│   ├── notes.md
+│   ├── summary.txt
+│   └── todo.md
+├── Day02_Jan17_2025
+│   ├── Wordle
+│   │   ├── Pipfile
+│   │   ├── Wordle
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-311.pyc
+│   │   │   │   ├── settings.cpython-311.pyc
+│   │   │   │   ├── urls.cpython-311.pyc
+│   │   │   │   └── wsgi.cpython-311.pyc
+│   │   │   ├── asgi.py
+│   │   │   ├── settings.py
+│   │   │   ├── urls.py
+│   │   │   └── wsgi.py
+│   │   ├── atonce.sh
+│   │   ├── create_superuser.sh
+│   │   ├── db.sqlite3
+│   │   ├── frontend
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-311.pyc
+│   │   │   │   ├── admin.cpython-311.pyc
+│   │   │   │   ├── apps.cpython-311.pyc
+│   │   │   │   ├── models.cpython-311.pyc
+│   │   │   │   ├── urls.cpython-311.pyc
+│   │   │   │   └── views.cpython-311.pyc
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── migrations
+│   │   │   │   ├── 0001_initial.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── __pycache__
+│   │   │   │       ├── 0001_initial.cpython-311.pyc
+│   │   │   │       └── __init__.cpython-311.pyc
+│   │   │   ├── models.py
+│   │   │   ├── static
+│   │   │   │   ├── css
+│   │   │   │   │   └── style.css
+│   │   │   │   └── images
+│   │   │   ├── templates
+│   │   │   │   └── frontend
+│   │   │   │       ├── error.html
+│   │   │   │       ├── home.html
+│   │   │   │       └── todays_game.html
+│   │   │   ├── tests.py
+│   │   │   ├── urls.py
+│   │   │   └── views.py
+│   │   ├── manage.py
+│   │   ├── players_create.sh
+│   │   ├── requirement.txt
+│   │   ├── reset_migrations.sh
+│   │   └── word_create.sh
+│   ├── day02_topic_practice.py
+│   ├── notes.md
+│   └── todo.md
+├── Day03_Jan18_2025
+│   ├── 001_basic_libraries.ipynb
+│   ├── 002_print_to_debug.ipynb
+│   ├── day03_topic_practice.py
+│   ├── new_folder
+│   │   └── 003_basic_regular_expression.ipynb
+│   └── todo.md
+├── Day04_Jan19_2025
+│   ├── 001_object_oriented_all_things.ipynb
+│   ├── 002_list_comprehension.ipynb
+│   ├── 003_list_comprehension_explained.md
+│   ├── day04_topic_practice.py
+│   ├── notes.md
+│   └── todo.md
+├── Day05_Jan20_2025
+│   ├── 001_proper_error_handling.ipynb
+│   ├── 002_importing_packages.ipynb
+│   ├── 00_finance_mini_proj
+│   │   ├── finance
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-311.pyc
+│   │   │   │   ├── __init__.cpython-313.pyc
+│   │   │   │   ├── salary.cpython-311.pyc
+│   │   │   │   ├── salary.cpython-313.pyc
+│   │   │   │   ├── tax.cpython-311.pyc
+│   │   │   │   └── tax.cpython-313.pyc
+│   │   │   ├── salary.py
+│   │   │   └── tax.py
+│   │   ├── main.py
+│   │   └── tests
+│   │       ├── __init__.py
+│   │       ├── __pycache__
+│   │       │   ├── __init__.cpython-311.pyc
+│   │       │   ├── test_salary.cpython-311-pytest-8.3.4.pyc
+│   │       │   ├── test_salary.cpython-311.pyc
+│   │       │   └── tests_tax.cpython-311.pyc
+│   │       ├── test_salary.py
+│   │       └── tests_tax.py
+│   ├── day05_topic_practice.py
+│   ├── notes.md
+│   └── todo.md
+├── Day06_Jan21_2025
+│   ├── 001_dictionary_comprehension.ipynb
+│   ├── 002_set_comprehension.ipynb
+│   ├── 003_iterators.ipynb
+│   ├── 004_generators.ipynb
+│   ├── day06_topic_practice.py
+│   ├── notes.md
+│   └── todo.md
+├── Day07
+│   ├── notes.md
+│   └── todo.md
+├── Day08
+│   ├── notes.md
+│   └── todo.md
+├── Day09
+│   ├── notes.md
+│   └── todo.md
+├── Day10
+│   ├── notes.md
+│   └── todo.md
+├── Day11
+│   ├── notes.md
+│   └── todo.md
+├── Day12
+│   ├── notes.md
+│   └── todo.md
+├── Day13
+│   ├── notes.md
+│   └── todo.md
+├── Day14
+│   ├── notes.md
+│   └── todo.md
+├── Day15
+│   ├── notes.md
+│   └── todo.md
+├── Day16
+│   ├── notes.md
+│   └── todo.md
+├── Day17
+│   ├── notes.md
+│   └── todo.md
+├── Day18
+│   ├── notes.md
+│   └── todo.md
+├── Day19
+│   ├── notes.md
+│   └── todo.md
+├── Day20
+│   ├── notes.md
+│   └── todo.md
+├── Day21
+│   ├── notes.md
+│   └── todo.md
+├── Day22
+│   ├── notes.md
+│   └── todo.md
+├── Day23
+│   ├── notes.md
+│   └── todo.md
+├── Day24
+│   ├── notes.md
+│   └── todo.md
+├── Day25
+│   ├── notes.md
+│   └── todo.md
+├── Day26
+│   ├── notes.md
+│   └── todo.md
+├── Day27
+│   ├── notes.md
+│   └── todo.md
+├── Day28
+│   ├── notes.md
+│   └── todo.md
+├── Day29
+│   ├── notes.md
+│   └── todo.md
+├── README.md
+├── Resources
+│   ├── helpful_links.txt
+│   └── references.md
+└── test.txt
+
+50 directories, 144 files

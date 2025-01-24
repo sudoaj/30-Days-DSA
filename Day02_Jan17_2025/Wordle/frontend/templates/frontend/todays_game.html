@@ -1,355 +1,68 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wordle Game - Play</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
+    <!-- Link external CSS -->
+    <link rel="stylesheet" href="{% static 'css/todays_game.css' %}" />
+  </head>
 
-        .error-message {
-            color: red;
-            margin-bottom: 20px;
-        }
-
-        .guess-input {
-            font-size: 16px;
-            padding: 10px;
-            width: 200px;
-        }
-
-        .submit-button {
-            font-size: 16px;
-            padding: 10px 20px;
-            margin-top: 10px;
-        }
-
-        .guesses {
-            margin-top: 20px;
-        }
-
-        .guess-item {
-            font-size: 18px;
-            margin: 5px 0;
-        }
-
-        .go-back-button {
-            font-size: 20px;
-            padding: 15px 30px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-
-        .word-tile {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            /* Spacing between rows */
-            justify-content: center;
-            align-items: center;
-            margin: 20px auto;
-        }
-
-        .word-tile-row {
-            display: flex;
-            gap: 10px;
-            /* Spacing between tiles in a row */
-            justify-content: center;
-            align-items: center;
-        }
-
-        .word-tile-row h1 {
-            width: 60px;
-            /* Adjust width for the tiles */
-            height: 60px;
-            /* Make the tiles square */
-            line-height: 60px;
-            /* Center the text vertically */
-            font-size: 24px;
-            /* Font size for the letters */
-            font-weight: bold;
-            text-align: center;
-            border: 2px solid #333;
-            /* Border for each tile */
-            background-color: #fff;
-            /* Default tile color */
-            color: #000;
-            /* Text color */
-            text-transform: uppercase;
-            /* Ensure letters are capitalized */
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-            /* Add a subtle shadow */
-            border-radius: 5px;
-            /* Rounded corners */
-        }
-
-        .word-tile-row h1.correct {
-            background-color: #6aaa64;
-            /* Green for correct letter and position */
-            color: #fff;
-        }
-
-        .word-tile-row h1.present {
-            background-color: #c9b458;
-            /* Yellow for correct letter, wrong position */
-            color: #fff;
-        }
-
-        .word-tile-row h1.absent {
-            background-color: #787c7e;
-            /* Gray for absent letters */
-            color: #fff;
-        }
-
-        @media (max-width: 600px) {
-            .word-tile-row h1 {
-                width: 40px;
-                height: 40px;
-                line-height: 40px;
-                font-size: 18px;
-            }
-        }
-
-
-        .keypad-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 50px;
-            gap: 10px;
-        }
-
-        .keypad-row {
-            display: flex;
-            gap: 5px;
-        }
-
-        .key {
-            background-color: grey;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 15px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .key:hover {
-            background-color: darkgrey;
-        }
-
-        .key:active {
-            background-color: lightgrey;
-        }
-
-        .guess-tile {
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    border: 2px solid #333;
-    background-color: #fff;
-    color: #000;
-    margin: 5px;
-    text-transform: uppercase;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-        }
-    </style>
-</head>
-
-<body>
+  <body>
     <h1>Wordle Game</h1>
 
     {% if error_message %}
     <p class="error-message">{{ error_message }}</p>
-    {% endif %}
-
-    {% if daily_word %}
-    <h2>Daily Word</h2>
-    <p>Remaining Attempts: {{ remaining_attempts }}</p>
-
-    <!-- <form method="post">
-            {% csrf_token %}
-            <input type="text" name="guess" maxlength="5" required class="guess-input" placeholder="Enter your guess">
-            <button type="submit" class="submit-button">Submit</button>
-        </form> -->
-
-    <!-- BEGIN WORDLE TILE -->
-    <!-- <div class="word-tile">
-        <div class="word-tile-row">
-            <h1 class="correct">A</h1>
-            <h1 class="present">P</h1>
-            <h1 class="absent">P</h1>
-            <h1 class="absent">L</h1>
-            <h1 class="correct">E</h1>
-        </div>
-        <div class="word-tile-row">
-            {% for word in daily_word %}
-            <h1>{{ word }}</h1>
-            {% endfor %}
-        </div>
-        <div class="word-tile-row">
-            {% for word in daily_word %}
-            <h1>{{ word }}</h1>
-            {% endfor %}
-        </div>
-        <div class="word-tile-row">
-            {% for word in daily_word %}
-            <h1>{{ word }}</h1>
-            {% endfor %}
-        </div>
-        <div class="word-tile-row">
-            {% for word in daily_word %}
-            <h1>{{ word }}</h1>
-            {% endfor %}
-        </div>
-    </div> -->
-    <!-- END WORDLE TILE -->
-
-    <!-- Current Guess Display -->
-    
-  
-    <div class="word-tiles">
-        {% for row in num_guesses %}
-        <div class="word-tile-row" id="guess-row-{{ row }}">
-            <!-- JavaScript will dynamically populate this row -->
-        </div>
-        {% endfor %}
+    {% endif %} {% if daily_word %}
+    <div id="word-tiles">
+      <div class="word-tiles-1">
+        <!-- JavaScript will dynamically populate rows -->
+      </div>
+      <div class="word-tiles-2">
+        <!-- JavaScript will dynamically populate rows -->
+      </div>
+      <div class="word-tiles-3">
+        <!-- JavaScript will dynamically populate rows -->
+      </div>
+      <div class="word-tiles-4">
+        <!-- JavaScript will dynamically populate rows -->
+      </div>
+      <div class="word-tiles-5">
+        <!-- JavaScript will dynamically populate rows -->
+      </div>
     </div>
 
     <!-- KEYBOARD START -->
     <div class="keypad-wrapper">
-        <div class="keypad-row">
-            {% for key in keys_row_one %}
-            <button class="key" onclick="addLetter('{{ key }}')">{{ key }}</button>
-            {% endfor %}
-        </div>
-        <div class="keypad-row">
-            {% for key in keys_row_two %}
-            <button class="key" onclick="addLetter('{{ key }}')">{{ key }}</button>
-            {% endfor %}
-        </div>
-        <div class="keypad-row">
-            {% for key in keys_row_three %}
-            <button class="key" onclick="handleSpecialKey('{{ key }}')">{{ key }}</button>
-            {% endfor %}
-        </div>
+      <div class="keypad-row">
+        {% for key in keys_row_one %}
+        <button class="key" onclick="addLetter('{{ key }}')">{{ key }}</button>
+        {% endfor %}
+      </div>
+      <div class="keypad-row">
+        {% for key in keys_row_two %}
+        <button class="key" onclick="addLetter('{{ key }}')">{{ key }}</button>
+        {% endfor %}
+      </div>
+      <div class="keypad-row">
+        {% for key in keys_row_three %}
+        <button class="key" onclick="handleSpecialKey('{{ key }}')">
+          {{ key }}
+        </button>
+        {% endfor %}
+      </div>
     </div>
+    <h1></h1>
     <!-- KEYBOARD END -->
 
-
-    <div class="guesses">
-        <h3>Your Guesses:</h3>
-        <ul>
-            {% for guess in guesses %}
-            <li class="guess-item">{{ guess.guess }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+    
     {% endif %}
     <a href="{% url 'home' %}">
-
-        <button class="go-back-button">Back to Home</button>
+      <button class="go-back-button">Back to Home</button>
     </a>
-
-    <script>
-        let currentRow = 0; // Current guess row (starts at 0)
-let guesses = ["", "", "", "", ""]; // Array to store guesses for each row
-const maxRows = 5; // Total number of guesses
-const maxLength = {{ word_length }}; // Word length from backend
-
-// Function to add a letter to the current guess
-function addLetter(letter) {
-    if (currentRow < maxRows && guesses[currentRow].length < maxLength) {
-        guesses[currentRow] += letter;
-        updateGuessRow();
-    }
-}
-
-// Function to handle special keys
-function handleSpecialKey(key) {
-    if (key === "⬅") {
-        guesses[currentRow] = guesses[currentRow].slice(0, -1); // Remove last character
-        updateGuessRow();
-    } else if (key === "✅") {
-        submitGuess(); // Submit the guess
-    } else {
-        addLetter(key); // Add letter for any other key
-    }
-}
-
-// Function to update the current row with the guess
-function updateGuessRow() {
-    const guessRow = document.getElementById(`guess-row-${currentRow}`);
-    guessRow.innerHTML = ""; // Clear the row content
-
-    for (let i = 0; i < maxLength; i++) {
-        const letter = guesses[currentRow][i] || ""; // Use empty space for missing letters
-        const tile = document.createElement("h1");
-        tile.classList.add("guess-tile");
-        tile.textContent = letter.toUpperCase();
-        guessRow.appendChild(tile);
-    }
-}
-
-// Function to submit the current guess
-async function submitGuess() {
-    if (guesses[currentRow].length !== maxLength) {
-        alert("Your guess must be exactly " + maxLength + " letters!");
-        return;
-    }
-
-    try {
-        const response = await fetch("{% url 'validate_guess' %}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": "{{ csrf_token }}"
-            },
-            body: JSON.stringify({ guess: guesses[currentRow] })
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to submit guess");
-        }
-
-        const data = await response.json();
-        if (data.status === "success") {
-            alert(data.message);
-            moveToNextRow(); // Move to the next row
-        } else {
-            alert(data.message);
-        }
-    } catch (error) {
-        console.error("Error submitting guess:", error);
-        alert("An error occurred while submitting your guess. Please try again.");
-    }
-}
-
-// Function to move to the next row
-function moveToNextRow() {
-    if (currentRow < maxRows - 1) {
-        currentRow += 1; // Advance to the next row
-    } else {
-        alert("Game Over! No more guesses allowed.");
-    }
-}
-       
-    </script>
-</body>
-
+    <!-- Include external JavaScript -->
+    <script src="{% static 'js/todays_game.js' %}"></script>
+  </body>
 </html>

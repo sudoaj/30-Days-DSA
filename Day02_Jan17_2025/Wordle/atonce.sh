@@ -10,6 +10,9 @@ echo "Creating superuser..."
 ./create_superuser.sh
 echo "Superuser created successfully."
 
+echo "Creating users..."
+./create_user.sh
+echo "User created successfully."
 
 echo "Creating players..."
 ./players_create.sh
@@ -23,6 +26,6 @@ echo "Daily word created successfully."
 echo "All tasks completed successfully."
 
 # Run the Django development server
-python manage.py runserver 0.0.0.0:8000
+python manage.py runserver 127.0.0.1:8000
 
 

@@ -1,134 +1,131 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import JsonResponse
 from django.utils.timezone import now
-from .models import DailyWord, Guess, GameSession
+from .models import DailyWord, Guess
+
+
+def get_daily_word():
+    """Helper function to fetch today's word."""
+    today = now().date()
+    return DailyWord.objects.filter(date=today).first()
+
+
+def get_player(request):
+    """Helper function to fetch the player instance for the current user."""
+    return getattr(request.user, 'player', None)
 
 
 def home(request):
     """
     Displays the home page with a 'Play Now' button.
     """
-    # Get today's daily word
-    today = now().date()
-    daily_word = DailyWord.objects.filter(date=today).first()
+    daily_word = get_daily_word()
 
-    # If no word exists for today, show an error on the home page
     if not daily_word:
         return render(request, 'frontend/home.html', {
             'error_message': 'No word available for today! Please check back later.'
         })
 
-    # Ensure the user has an associated Player instance
-    if not hasattr(request.user, 'player'):
+    if not get_player(request):
         return render(request, 'frontend/home.html', {
             'error_message': 'You are not a registered player!'
         })
 
-    # Render the home page with the Play Now button
-    return render(request, 'frontend/home.html', {})
+    return render(request, 'frontend/home.html')
+
 
 def todays_game(request):
     """
-    Unified view for today's game, handling both game display and guess submissions.
+    Displays the game page for today's word.
     """
-    # Get today's daily word
-    today = now().date()
-    daily_word = DailyWord.objects.filter(date=today).first()
-    keys_row_one = list("QWERTYUIOP")
-    keys_row_two = list("ASDFGHJKL")
-    keys_row_three = ["⬅", "Z", "X", "C", "V", "B", "N", "M", "✅"]
+    daily_word = get_daily_word()
 
-    # If no word exists for today, show an error
     if not daily_word:
         return render(request, 'frontend/todays_game.html', {
-            'error_message': 'No word available for today!',
-            'daily_word': None,
-            'guesses': None,
-            'max_attempts': None,
-            'status': None,
+            'error_message': 'No word available for today!'
         })
 
-    # Ensure the user has an associated Player instance
-    if not hasattr(request.user, 'player'):
+    player = get_player(request)
+    if not player:
         return render(request, 'frontend/todays_game.html', {
-            'error_message': 'You are not a registered player!',
-            'daily_word': None,
-            'guesses': None,
-            'max_attempts': None,
-            'status': None,
+            'error_message': 'You are not a registered player!'
         })
 
-    # Fetch the Player instance
-    player = request.user.player
-
-    # Handle POST request for guesses
-    if request.method == 'POST':
-        guess_word = request.POST.get('guess')
-
-        # Check if guess is valid
-        if not guess_word or len(guess_word) != 5:
-            return JsonResponse({'error': 'Invalid guess! Please enter a 5-letter word.'}, status=400)
-
-        # Check if the guess is correct
-        is_correct = guess_word.lower() == daily_word.word.lower()
-
-        # Record the guess
-        Guess.objects.create(
-            player=player,
-            daily_word=daily_word,
-            guess=guess_word,
-            attempt=Guess.objects.filter(player=player, daily_word=daily_word).count() + 1
-        )
-
-        # Handle game outcome
-        if is_correct:
-            return JsonResponse({'message': 'Correct!', 'status': 'won'})
-        elif Guess.objects.filter(player=player, daily_word=daily_word).count() >= 6:  # Max attempts reached
-            return JsonResponse({'message': 'Game Over!', 'status': 'lost'})
-        else:
-            return JsonResponse({'message': 'Try Again!', 'status': 'continue'})
-
-    # Handle GET request to display the game
     guesses = Guess.objects.filter(player=player, daily_word=daily_word).order_by('attempt')
-    max_attempts = 6
+    max_attempts = 5
     remaining_attempts = max_attempts - guesses.count()
-    num_guesses = 5
+
     return render(request, 'frontend/todays_game.html', {
-        'error_message': None,
         'daily_word': daily_word.word,
         'guesses': guesses,
         'max_attempts': max_attempts,
         'remaining_attempts': remaining_attempts,
-        'status': None,
-        'keys_row_one': keys_row_one,
-        'keys_row_two': keys_row_two,
-        'keys_row_three': keys_row_three,
+        'keys_row_one': list("QWERTYUIOP"),
+        'keys_row_two': list("ASDFGHJKL"),
+        'keys_row_three': ["⬅", "Z", "X", "C", "V", "B", "N", "M", "✅"],
         'word_length': len(daily_word.word),
-        'num_guesses': range(num_guesses),
+        'num_guesses': range(5),
     })
 
 
-
-
-
 def validate_guess(request):
+    """
+    Validates a player's guess and returns feedback.
+    """
     if request.method == "POST":
         import json
         data = json.loads(request.body)
         guess = data.get("guess", "").lower()
 
-        # Get today's word
-        today = now().date()
-        daily_word = DailyWord.objects.filter(date=today).first()
+        daily_word = get_daily_word()
         if not daily_word:
             return JsonResponse({"status": "error", "message": "No word available for today!"})
 
-        # Validate the guess
         if len(guess) != len(daily_word.word):
             return JsonResponse({"status": "error", "message": "Invalid guess length!"})
 
+        target_word_list = list(daily_word.word.lower())
+        guess_list = list(guess)
+        result = ["absent"] * len(target_word_list)
+
+        # First pass: Correct letters
+        for i in range(len(guess_list)):
+            if guess_list[i] == target_word_list[i]:
+                result[i] = "correct"
+                target_word_list[i] = None
+
+        # Second pass: Present letters
+        for i in range(len(guess_list)):
+            if result[i] == "absent" and guess_list[i] in target_word_list:
+                result[i] = "present"
+                target_word_list[target_word_list.index(guess_list[i])] = None
+
+        player = get_player(request)
+        Guess.objects.create(
+            player=player,
+            daily_word=daily_word,
+            guess=guess,
+            attempt=Guess.objects.filter(player=player, daily_word=daily_word).count() + 1
+        )
+
         if guess == daily_word.word.lower():
-            return JsonResponse({"status": "success", "message": "Correct! You've guessed the word!"})
-        else:
-            return JsonResponse({"status": "error", "message": "Incorrect guess. Try again!"})
+            return JsonResponse({
+                "status": "success",
+                "message": "Congratulations! You've guessed the word!",
+                "result": result,
+            })
+
+        if Guess.objects.filter(player=player, daily_word=daily_word).count() >= 6:
+            return JsonResponse({
+                "status": "game_over",
+                "message": f"Game Over! The correct word was: {daily_word.word}",
+                "result": result,
+            })
+
+        return JsonResponse({
+            "status": "continue",
+            "message": "Try again!",
+            "result": result,
+        })
+
     return JsonResponse({"status": "error", "message": "Invalid request!"})

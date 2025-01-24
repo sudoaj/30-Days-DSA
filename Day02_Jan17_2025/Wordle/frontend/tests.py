@@ -1,59 +1,138 @@
 from django.test import TestCase, Client
-from django.utils.timezone import now
 from django.contrib.auth.models import User
-from .models import DailyWord, Player, Guess
+from django.utils.timezone import now
+from frontend.models import DailyWord, Guess, Player
 
-class FrontendTests(TestCase):
 
+class WordleAppTests(TestCase):
     def setUp(self):
-        # Create a test user
-        self.user = User.objects.create_user(username='testuser', password='password')
-        
-        # Create a test player linked to the user
-        self.player = Player.objects.create(player=self.user)
-        
-        # Create a daily word
-        self.daily_word = DailyWord.objects.create(word='apple', date=now().date())
-
-        # Log in the test user
+        """
+        Set up the test environment with a user, player, daily word, and client.
+        """
+        # Create a test user and login
+        self.user = User.objects.create_user(username="testuser", password="password123")
         self.client = Client()
-        self.client.login(username='testuser', password='password')
+        self.client.login(username="testuser", password="password123")
 
-    def test_home_view(self):
-        # Test the home view (GET)
-        response = self.client.get('/')
+        # Create a Player instance for the user
+        self.player = Player.objects.create(player=self.user)
+
+        # Create today's DailyWord
+        self.daily_word = DailyWord.objects.create(word="APPLE", date=now().date())
+
+    def test_home_view_with_word(self):
+        """
+        Test the home view when a daily word exists.
+        """
+        response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Play Now')
+        self.assertContains(response, "Play Now")
 
-    def test_todays_game_view(self):
-        # Test the today's game view (GET)
-        response = self.client.get('/todays-game/')
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Daily Word')
-        self.assertContains(response, 'Remaining Attempts')
-
-    def test_submit_valid_guess(self):
-        # Test submitting a valid guess
-        response = self.client.post('/todays-game/', {'guess': 'apple'})
-        self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode(), {'message': 'Correct!', 'status': 'won'})
-
-    def test_submit_invalid_guess(self):
-        # Test submitting an invalid guess
-        response = self.client.post('/todays-game/', {'guess': 'cat'})
-        self.assertEqual(response.status_code, 400)
-        self.assertContains(response, 'Invalid guess', status_code=400)
-
-    def test_guess_limit_exceeded(self):
-        # Submit multiple incorrect guesses to exceed limit
-        for _ in range(6):
-            self.client.post('/todays-game/', {'guess': 'wrong'})
-        response = self.client.post('/todays-game/', {'guess': 'wrong'})
-        self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode(), {'message': 'Game Over!', 'status': 'lost'})
-
-    def test_no_daily_word(self):
-        # Remove the daily word and test behavior
+    def test_home_view_no_word(self):
+        """
+        Test the home view when no daily word exists.
+        """
         self.daily_word.delete()
-        response = self.client.get('/todays-game/')
-        self.assertContains(response, 'No word available for today!', status_code=200)
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No word available for today!")
+
+    def test_home_view_no_player(self):
+        """
+        Test the home view when the user is not associated with a Player instance.
+        """
+        self.player.delete()
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "You are not a registered player!")
+
+    def test_todays_game_view_with_word(self):
+        """
+        Test the today's game view when a daily word exists.
+        """
+        response = self.client.get("/todays-game/")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.daily_word.word)
+
+    def test_todays_game_view_no_word(self):
+        """
+        Test the today's game view when no daily word exists.
+        """
+        self.daily_word.delete()
+        response = self.client.get("/todays-game/")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No word available for today!")
+
+    def test_todays_game_view_no_player(self):
+        """
+        Test the today's game view when the user is not associated with a Player instance.
+        """
+        self.player.delete()
+        response = self.client.get("/todays-game/")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "You are not a registered player!")
+
+    def test_validate_guess_correct(self):
+        """
+        Test the validate_guess endpoint with a correct guess.
+        """
+        response = self.client.post(
+            "/validate-guess/",
+            data={"guess": "APPLE"},
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
+        self.assertEqual(response.status_code, 200)
+        response_data = response.json()
+        self.assertEqual(response_data["status"], "success")
+        self.assertIn("Congratulations", response_data["message"])
+
+    def test_validate_guess_incorrect(self):
+        """
+        Test the validate_guess endpoint with an incorrect guess.
+        """
+        response = self.client.post(
+            "/validate-guess/",
+            data={"guess": "GRAPE"},
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
+        self.assertEqual(response.status_code, 200)
+        response_data = response.json()
+        self.assertEqual(response_data["status"], "continue")
+        self.assertIn("Try again", response_data["message"])
+
+    def test_validate_guess_invalid_length(self):
+        """
+        Test the validate_guess endpoint with an invalid guess length.
+        """
+        response = self.client.post(
+            "/validate-guess/",
+            data={"guess": "TOO"},
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
+        self.assertEqual(response.status_code, 400)
+        response_data = response.json()
+        self.assertEqual(response_data["status"], "error")
+        self.assertEqual(response_data["message"], "Invalid guess length!")
+
+    def test_validate_guess_game_over(self):
+        """
+        Test the validate_guess endpoint when the player exceeds maximum attempts.
+        """
+        # Add 5 incorrect guesses
+        for i in range(5):
+            Guess.objects.create(player=self.player, daily_word=self.daily_word, guess="GRAPE", attempt=i + 1)
+
+        # Submit the 6th incorrect guess
+        response = self.client.post(
+            "/validate-guess/",
+            data={"guess": "MANGO"},
+            content_type="application/json",
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
+        self.assertEqual(response.status_code, 200)
+        response_data = response.json()
+        self.assertEqual(response_data["status"], "game_over")
+        self.assertIn("Game Over", response_data["message"])
