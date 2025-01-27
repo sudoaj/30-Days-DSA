@@ -1,68 +1,64 @@
+{% extends 'frontend/base.html' %}
 {% load static %}
+{% block title %}Home - Wordle Game{% endblock %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wordle Game - Play</title>
-    <!-- Link external CSS -->
-    <link rel="stylesheet" href="{% static 'css/todays_game.css' %}" />
-  </head>
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'frontend/css/todays_game.css' %}">
+{% endblock %}
 
-  <body>
-    <h1>Wordle Game</h1>
+{% block content %}
+<h1>Wordle Game</h1>
 
-    {% if error_message %}
+<!-- Display error messages if any -->
+{% if error_message %}
     <p class="error-message">{{ error_message }}</p>
-    {% endif %} {% if daily_word %}
-    <div id="word-tiles">
-      <div class="word-tiles-1">
-        <!-- JavaScript will dynamically populate rows -->
-      </div>
-      <div class="word-tiles-2">
-        <!-- JavaScript will dynamically populate rows -->
-      </div>
-      <div class="word-tiles-3">
-        <!-- JavaScript will dynamically populate rows -->
-      </div>
-      <div class="word-tiles-4">
-        <!-- JavaScript will dynamically populate rows -->
-      </div>
-      <div class="word-tiles-5">
-        <!-- JavaScript will dynamically populate rows -->
-      </div>
-    </div>
+{% endif %}
 
-    <!-- KEYBOARD START -->
-    <div class="keypad-wrapper">
-      <div class="keypad-row">
+<!-- Display the game only if a daily word is available -->
+{% if daily_word %}
+<div id="word-tiles">
+    <div class="word-tiles-1">
+        <!-- JavaScript will dynamically populate rows -->
+    </div>
+    <div class="word-tiles-2">
+        <!-- JavaScript will dynamically populate rows -->
+    </div>
+    <div class="word-tiles-3">
+        <!-- JavaScript will dynamically populate rows -->
+    </div>
+    <div class="word-tiles-4">
+        <!-- JavaScript will dynamically populate rows -->
+    </div>
+    <div class="word-tiles-5">
+        <!-- JavaScript will dynamically populate rows -->
+    </div>
+</div>
+
+<!-- KEYBOARD START -->
+<div class="keypad-wrapper">
+    <div class="keypad-row">
         {% for key in keys_row_one %}
         <button class="key" onclick="addLetter('{{ key }}')">{{ key }}</button>
         {% endfor %}
-      </div>
-      <div class="keypad-row">
+    </div>
+    <div class="keypad-row">
         {% for key in keys_row_two %}
         <button class="key" onclick="addLetter('{{ key }}')">{{ key }}</button>
         {% endfor %}
-      </div>
-      <div class="keypad-row">
-        {% for key in keys_row_three %}
-        <button class="key" onclick="handleSpecialKey('{{ key }}')">
-          {{ key }}
-        </button>
-        {% endfor %}
-      </div>
     </div>
-    <h1></h1>
-    <!-- KEYBOARD END -->
+    <div class="keypad-row">
+        {% for key in keys_row_three %}
+        <button class="key" onclick="handleSpecialKey('{{ key }}')">{{ key }}</button>
+        {% endfor %}
+    </div>
+</div>
+<!-- KEYBOARD END -->
 
-    
-    {% endif %}
-    <a href="{% url 'home' %}">
-      <button class="go-back-button">Back to Home</button>
-    </a>
-    <!-- Include external JavaScript -->
-    <script src="{% static 'js/todays_game.js' %}"></script>
-  </body>
-</html>
+{% endif %}
+
+<!-- Back to Home Button -->
+<a href="{% url 'home' %}">
+    <button class="go-back-button">Back to Home</button>
+</a>
+
+{% endblock %}

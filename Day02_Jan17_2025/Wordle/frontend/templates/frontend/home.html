@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wordle Game - Home</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% extends 'frontend/base.html' %}
 
-</head>
-<body>
-    <h1>Welcome to Wordle</h1>
-    <p>Play the daily word guessing game and test your skills!</p>
-    <a href="{% url 'todays_game' %}">
-        <button class="play-button">Play Now</button>
-    </a>
-</body>
-</html>
+{% block title %}Home - Wordle Game{% endblock %}
+
+{% block content %}
+<h1>Welcome to Wordle!</h1>
+<p>Play the daily word guessing game.</p>
+<a href="{% url 'todays_game' %}" class="play-button">Play Now</a>
+{% endblock %}

@@ -3,6 +3,8 @@ from django.http import JsonResponse
 from django.utils.timezone import now
 from .models import DailyWord, Guess
 
+def error(request):
+    return render(request, 'frontend/error.html')
 
 def get_daily_word():
     """Helper function to fetch today's word."""
