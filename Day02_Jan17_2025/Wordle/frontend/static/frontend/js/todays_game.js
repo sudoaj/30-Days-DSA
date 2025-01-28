@@ -1,119 +1,194 @@
-const maxRows = 5; // Total number of guesses
-const maxLength = 5; // Length of the word
-let currentRow = 0; // Tracks the current guess row
-let guesses = Array(maxRows).fill(""); // Array to store guesses for each row
+// Wordle Game Core Logic
+class WordleGame {
+  constructor() {
+    // Game Configuration
+    this.maxRows = 5;
+    this.maxLength = 5;
+    
+    // Game State
+    this.currentRow = 0;
+    this.guesses = Array(this.maxRows).fill("");
+    this.keyboardEnabled = true;
+    this.gameOver = false;
 
-// Add a letter to the current guess
-function addLetter(letter) {
-  if (currentRow < maxRows && guesses[currentRow].length < maxLength) {
-    guesses[currentRow] += letter;
-    updateGuessRow();
-  }
-}
-
-// Handle special keys (backspace or submit)
-function handleSpecialKey(key) {
-  if (key === "⬅") {
-    guesses[currentRow] = guesses[currentRow].slice(0, -1); // Remove the last letter
-    updateGuessRow();
-  } else if (key === "✅") {
-    submitGuess(); // Submit the current guess
-  } else {
-    addLetter(key); // Add letter if it's not a special key
-  }
-}
-
-// Function to disable keyboard interaction
-function disableKeyboard() {
-  const keys = document.querySelectorAll(".key"); // Assuming your keyboard keys have a class 'key'
-  keys.forEach((key) => {
-    key.style.pointerEvents = "none"; // Disable mouse clicks
-    key.style.opacity = "0.5"; // Optional: Dim the keys visually
-  });
-}
-
-// Update the current row with letters
-function updateGuessRow() {
-  const guessRow = document.querySelector(
-    `.word-tiles-${currentRow + 1}`
-  );
-  const tiles = guessRow.children;
-
-  for (let i = 0; i < maxLength; i++) {
-    const letter = guesses[currentRow][i] || ""; // Get the letter or empty string
-    tiles[i].textContent = letter.toUpperCase();
-  }
-}
-
-// Submit the guess to the backend for validation
-async function submitGuess() {
-  const currentGuess = guesses[currentRow].toUpperCase();
-
-  if (currentGuess.length !== maxLength) {
-    alert("Incomplete guess! Fill all the tiles before submitting.");
-    return;
+    // DOM Elements
+    this.messageBox = null;
+    this.initializeDOM();
   }
 
-  try {
-    // Send the guess to the backend
-    const response = await fetch("{% url 'validate_guess' %}", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": "{{ csrf_token }}",
-      },
-      body: JSON.stringify({ guess: currentGuess }),
-    });
+  // Initialize Game DOM Elements
+  initializeDOM() {
+    this.createMessageBox();
+    this.initializeRows();
+    this.setupEventListeners();
+  }
 
-    const data = await response.json();
+  // Create Message Display Box
+  createMessageBox() {
+    this.messageBox = document.createElement("div");
+    this.messageBox.id = "message-box";
+    this.messageBox.className = "message";
+    document.body.insertBefore(this.messageBox, document.body.firstChild);
+  }
 
-    if (data.status === "error") {
-      alert(data.message);
+  // Display Game Messages
+  displayMessage(message, type = "info") {
+    if (!this.messageBox) this.createMessageBox();
+    this.messageBox.textContent = message;
+    this.messageBox.className = `message ${type}`;
+    
+    // Auto-clear message after 3 seconds
+    setTimeout(() => {
+      this.messageBox.textContent = "";
+      this.messageBox.className = "message";
+    }, 3000);
+  }
+
+  // Initialize Game Rows
+  initializeRows() {
+    for (let row = 1; row <= this.maxRows; row++) {
+      const rowDiv = document.querySelector(`.word-tiles-${row}`);
+      if (!rowDiv) {
+        console.error(`Row .word-tiles-${row} not found`);
+        continue;
+      }
+      rowDiv.innerHTML = '';
+      for (let col = 0; col < this.maxLength; col++) {
+        const tile = document.createElement("h1");
+        tile.classList.add("guess-tile");
+        rowDiv.appendChild(tile);
+      }
+    }
+  }
+
+  updateGuessRow() {
+    // Select the current row based on `currentRow`
+    const guessRow = document.querySelector(`.word-tiles-${this.currentRow + 1}`);
+    
+    // Check if the row exists
+    if (!guessRow) {
+      console.error(`Row .word-tiles-${this.currentRow + 1} not found`);
       return;
     }
-
-    const result = data.result; // Array: ["correct", "present", "absent", ...]
-    const guessRow = document.querySelector(
-      `.word-tiles-${currentRow + 1}`
-    );
+  
+    // Get the tiles in the current row
     const tiles = guessRow.children;
-
-    // Update tile classes based on the backend result
-    for (let i = 0; i < result.length; i++) {
-      tiles[i].classList.remove("absent", "present", "correct");
-      tiles[i].classList.add(result[i]);
+  
+    // Loop through the tiles and update their content
+    for (let i = 0; i < this.maxLength; i++) {
+      const letter = this.guesses[this.currentRow][i] || ""; // Use empty string for missing letters
+      tiles[i].textContent = letter.toUpperCase(); // Set the letter (uppercase)
     }
+  }
+  // Event Listeners
+  setupEventListeners() {
+    document.addEventListener('keydown', (event) => {
+      if (!this.keyboardEnabled || this.gameOver) return;
+      const key = event.key.toUpperCase();
+      if (/^[A-Z]$/.test(key)) this.addLetter(key);
+      else if (key === 'BACKSPACE') this.removeLetter();
+      else if (key === 'ENTER') this.submitGuess();
+    });
+  }
 
-    if (data.status === "success") {
-      alert(data.message);
-      disableKeyboard();
+  // Add Letter
+  addLetter(letter) {
+    if (this.guesses[this.currentRow].length < this.maxLength) {
+      this.guesses[this.currentRow] += letter;
+      this.updateGuessRow();
+    }
+  }
+
+  // Remove Letter
+  removeLetter() {
+    if (this.guesses[this.currentRow].length > 0) {
+      this.guesses[this.currentRow] = this.guesses[this.currentRow].slice(0, -1);
+      this.updateGuessRow();
+    }
+  }
+
+  // Submit Guess
+  async submitGuess() {
+    const currentGuess = this.guesses[this.currentRow].toUpperCase();
+    if (currentGuess.length !== this.maxLength) {
+      this.displayMessage("Incomplete guess! Fill all the tiles.", "error");
       return;
     }
 
-    if (data.status === "game_over") {
-      alert(data.message);
-      disableKeyboard();
-      return;
-    }
+    try {
+      const response = await fetch(validateGuessUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrfToken,
+        },
+        body: JSON.stringify({ guess: currentGuess }),
+      });
 
-    // Move to the next row
-    currentRow++;
-  } catch (error) {
-    console.error("Error submitting guess:", error);
-    alert("An error occurred. Please try again.");
+      const data = await response.json();
+      if (data.status === "error") {
+        this.displayMessage(data.message, "error");
+      } else if (data.status === "success") {
+        this.handleGameWin(data.message);
+      } else if (data.status === "game_over") {
+        this.handleGameLoss(data.message);
+      } else {
+        this.updateRowResult(data.result);
+        this.advanceToNextRow();
+      }
+    } catch (error) {
+      console.error("Guess submission error:", error);
+      this.displayMessage("Network error. Please try again.", "error");
+    }
+  }
+
+  // Update Row Result
+  updateRowResult(result) {
+    const guessRow = document.querySelector(`.word-tiles-${this.currentRow + 1}`);
+    if (guessRow) {
+      const tiles = guessRow.children;
+      result.forEach((status, index) => {
+        tiles[index].classList.remove("absent", "present", "correct");
+        tiles[index].classList.add(status);
+      });
+    }
+  }
+
+  // Advance to Next Row
+  advanceToNextRow() {
+    if (this.currentRow < this.maxRows - 1) {
+      this.currentRow++;
+    } else {
+      this.handleGameLoss("No more attempts left!");
+    }
+  }
+
+  // Handle Game Win
+  handleGameWin(message) {
+    this.displayMessage(message, "success");
+    this.endGame();
+  }
+
+  // Handle Game Loss
+  handleGameLoss(message) {
+    this.displayMessage(message, "error");
+    this.endGame();
+  }
+
+  // End Game
+  endGame() {
+    this.gameOver = true;
+    this.disableKeyboard();
+  }
+
+  // Disable Keyboard
+  disableKeyboard() {
+    this.keyboardEnabled = false;
   }
 }
 
-// Initialize rows when the page loads
-function initializeRows() {
-  for (let row = 1; row <= maxRows; row++) {
-    const rowDiv = document.querySelector(`.word-tiles-${row}`);
-    for (let col = 0; col < maxLength; col++) {
-      const tile = document.createElement("h1");
-      tile.classList.add("guess-tile");
-      rowDiv.appendChild(tile);
-    }
-  }
-}
+// Initialize Wordle Game
+document.addEventListener("DOMContentLoaded", () => {
+  window.wordleGame = new WordleGame();
+});
 
-document.addEventListener("DOMContentLoaded", initializeRows);

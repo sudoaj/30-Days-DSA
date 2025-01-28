@@ -9,6 +9,12 @@
 {% block content %}
 <h1>Wordle Game</h1>
 
+<!-- Include the CSRF token as a JavaScript variable -->
+<script>
+  const validateGuessUrl = "{% url 'validate_guess' %}";
+  const csrfToken = "{{ csrf_token }}";
+</script>
+
 <!-- Display error messages if any -->
 {% if error_message %}
     <p class="error-message">{{ error_message }}</p>
@@ -17,39 +23,31 @@
 <!-- Display the game only if a daily word is available -->
 {% if daily_word %}
 <div id="word-tiles">
-    <div class="word-tiles-1">
-        <!-- JavaScript will dynamically populate rows -->
-    </div>
-    <div class="word-tiles-2">
-        <!-- JavaScript will dynamically populate rows -->
-    </div>
-    <div class="word-tiles-3">
-        <!-- JavaScript will dynamically populate rows -->
-    </div>
-    <div class="word-tiles-4">
-        <!-- JavaScript will dynamically populate rows -->
-    </div>
-    <div class="word-tiles-5">
-        <!-- JavaScript will dynamically populate rows -->
-    </div>
+    <div class="word-tiles-1"></div>
+    <div class="word-tiles-2"></div>
+    <div class="word-tiles-3"></div>
+    <div class="word-tiles-4"></div>
+    <div class="word-tiles-5"></div>
 </div>
 
 <!-- KEYBOARD START -->
 <div class="keypad-wrapper">
     <div class="keypad-row">
         {% for key in keys_row_one %}
-        <button class="key" onclick="addLetter('{{ key }}')">{{ key }}</button>
+        <button class="key" onclick="window.wordleGame.addLetter('{{ key }}')">{{ key }}</button>
         {% endfor %}
     </div>
     <div class="keypad-row">
         {% for key in keys_row_two %}
-        <button class="key" onclick="addLetter('{{ key }}')">{{ key }}</button>
+        <button class="key" onclick="window.wordleGame.addLetter('{{ key }}')">{{ key }}</button>
         {% endfor %}
     </div>
     <div class="keypad-row">
+        <button class="key" onclick="window.wordleGame.removeLetter()">⬅</button>
         {% for key in keys_row_three %}
-        <button class="key" onclick="handleSpecialKey('{{ key }}')">{{ key }}</button>
+        <button class="key" onclick="window.wordleGame.addLetter('{{ key }}')">{{ key }}</button>
         {% endfor %}
+        <button class="key" onclick="window.wordleGame.submitGuess()">✅</button>
     </div>
 </div>
 <!-- KEYBOARD END -->

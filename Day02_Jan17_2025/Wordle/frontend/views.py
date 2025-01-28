@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.utils.timezone import now
 from .models import DailyWord, Guess
+import logging
+
+logger = logging.getLogger(__name__)
 
 def error(request):
     return render(request, 'frontend/error.html')
@@ -9,12 +12,15 @@ def error(request):
 def get_daily_word():
     """Helper function to fetch today's word."""
     today = now().date()
-    return DailyWord.objects.filter(date=today).first()
+    return DailyWord.objects.filter(date=today).order_by('id').first()
 
 
 def get_player(request):
     """Helper function to fetch the player instance for the current user."""
-    return getattr(request.user, 'player', None)
+    player = getattr(request.user, 'player', None)
+    if not player:
+        logger.warning(f"Player instance missing for user: {request.user.username}")
+    return player
 
 
 def home(request):
@@ -58,10 +64,9 @@ def todays_game(request):
     remaining_attempts = max_attempts - guesses.count()
 
     return render(request, 'frontend/todays_game.html', {
-        'daily_word': daily_word.word,
+     'daily_word': daily_word.word,
         'guesses': guesses,
-        'max_attempts': max_attempts,
-        'remaining_attempts': remaining_attempts,
+        'max_attempts': 5,
         'keys_row_one': list("QWERTYUIOP"),
         'keys_row_two': list("ASDFGHJKL"),
         'keys_row_three': ["⬅", "Z", "X", "C", "V", "B", "N", "M", "✅"],
@@ -86,6 +91,18 @@ def validate_guess(request):
         if len(guess) != len(daily_word.word):
             return JsonResponse({"status": "error", "message": "Invalid guess length!"})
 
+        player = get_player(request)
+        if not player:
+            return JsonResponse({"status": "error", "message": "Player not found!"})
+
+        # Prevent further guesses after game over
+        if Guess.objects.filter(player=player, daily_word=daily_word).count() >= 6:
+            return JsonResponse({
+                "status": "game_over",
+                "message": "Game Over! No more attempts allowed.",
+            })
+
+        # Compute results
         target_word_list = list(daily_word.word.lower())
         guess_list = list(guess)
         result = ["absent"] * len(target_word_list)
@@ -102,7 +119,7 @@ def validate_guess(request):
                 result[i] = "present"
                 target_word_list[target_word_list.index(guess_list[i])] = None
 
-        player = get_player(request)
+        # Save the guess
         Guess.objects.create(
             player=player,
             daily_word=daily_word,
