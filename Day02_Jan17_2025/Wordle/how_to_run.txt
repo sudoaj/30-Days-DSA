@@ -1,0 +1,201 @@
+### ./3_create_user.sh
+#!/bin/bash
+
+# Set the Django settings module environment variable if necessary
+export DJANGO_SETTINGS_MODULE=Wordle.settings  # Replace 'your_project' with your actual project name
+
+# Run the Django shell and execute Python code to create 10 users with creative details
+python manage.py shell <<EOF
+import random
+import string
+from django.contrib.auth.models import User
+
+# Random username generator
+def random_username():
+    adjectives = ["Brave", "Clever", "Swift", "Mighty", "Gentle", "Bold", "Quick", "Bright", "Lucky", "Strong"]
+    nouns = ["Tiger", "Falcon", "Wolf", "Bear", "Lion", "Eagle", "Hawk", "Fox", "Panther", "Otter"]
+    return f"{random.choice(adjectives)}{random.choice(nouns)}{random.randint(100, 999)}"
+
+# Random email generator
+def random_email(username):
+    domains = ["example.com", "creativemail.com", "wordlegame.net", "testmail.org"]
+    return f"{username.lower()}@{random.choice(domains)}"
+
+# Random password generator
+def random_password():
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=12))
+
+# Create 10 users with random details
+for i in range(10):
+    username = random_username()
+    email = random_email(username)
+    password = random_password()
+
+    if not User.objects.filter(username=username).exists():
+        User.objects.create_user(username=username, email=email, password=password)
+        print(f"Created user: {username} | Email: {email} | Password: {password}")
+    else:
+        print(f"User {username} already exists!")
+EOF
+### ./0_RUNPROJ.sh
+#!/bin/bash
+
+set -e  # Exit the script if any command fails
+
+echo "Resetting migrations..."
+./1_reset_migrations.sh
+echo "Migrations reset successfully."
+
+echo "Creating superuser..."
+./2_create_super_user.sh
+echo "Superuser created successfully."
+
+echo "Creating users..."
+./3_create_user.sh
+echo "User created successfully."
+
+echo "Creating players..."
+./4_create_player.sh
+echo "Players created successfully."
+
+echo "Creating daily word..."
+./5_create_words.sh
+echo "Daily word created successfully."
+
+
+echo "All tasks completed successfully."
+
+# Run the Django development server
+python manage.py runserver 127.0.0.1:8000
+
+
+
+
+
+### ./4_create_player.sh
+#!/bin/bash
+
+# Set the Django settings module environment variable
+export DJANGO_SETTINGS_MODULE=Wordle.settings
+
+# Run the Django shell and execute Python code to create players
+python manage.py shell <<EOF
+from random import randint
+from django.contrib.auth.models import User
+from frontend.models import Player
+
+# Iterate over all users in the database
+users = User.objects.all()
+
+for user in users:
+    # Check if a Player already exists for the user
+    if not Player.objects.filter(player=user).exists():
+        # Generate random stats
+        games_played = randint(0, 100)
+        games_won = randint(0, games_played)
+        win_streak = randint(0, games_won)
+
+        # Create the Player
+        Player.objects.create(
+            player=user,
+            games_played=games_played,
+            games_won=games_won,
+            win_streak=win_streak
+        )
+
+        print(f"Created Player for user: {user.username}")
+    else:
+        print(f"Player already exists for user: {user.username}")
+EOF
+
+### ./5_create_words.sh
+#!/bin/bash
+
+# Set the Django settings module environment variable
+export DJANGO_SETTINGS_MODULE=Wordle.settings
+
+# Run the Django shell and execute Python code to create a valid 5-letter daily word
+python manage.py shell <<EOF
+import random
+from django.utils.timezone import now
+from frontend.models import DailyWord
+
+# Predefined list of valid 5-letter English words
+VALID_WORDS = [
+    "apple", "grape", "pearl", "stone", "light",
+    "proud", "globe", "brave", "chair", "plant",
+    "trend", "solar", "ocean", "crown", "charm",
+    "vivid", "flare", "spark", "frame", "river",
+    "plane", "flint", "grind", "smile", "bread",
+    "cloud", "storm", "field", "grain", "scale",
+    "swift", "power", "union", "lunar", "jolly",
+    "giant", "frost", "pride", "crisp", "flame",
+    "woven", "trust", "sight", "blast", "flown",
+    "sharp", "jewel", "drive", "spend", "chart",
+    "trace", "glove", "vocal", "blend", "shard",
+    "beach", "crest", "clear", "flock", "grasp",
+    "shine", "climb", "spice", "hover", "quiet",
+    "whale", "zebra", "glide", "brand", "dream",
+    "steep", "fence", "solid", "quick", "humor",
+    "angle", "heart", "grill", "limit", "blink",
+    "voice", "straw", "prune", "chime", "slice",
+    "adorn", "burst", "probe", "chill", "sound",
+    "paint", "arise", "crane", "forge", "gravy",
+    "clerk", "shrew", "naval", "perky", "folly"
+]
+
+# Get today's date
+today = now().date()
+
+# Check if a DailyWord already exists for today
+if DailyWord.objects.filter(date=today).exists():
+    print(f"A daily word already exists for {today}.")
+else:
+    # Select a random word from the valid list
+    word = random.choice(VALID_WORDS)
+    DailyWord.objects.create(word=word, date=today, is_active=True)
+    print(f"Created new daily word: {word} for {today}")
+EOF
+### ./2_create_super_user.sh
+#!/bin/bash
+
+
+# Set environment variables for the superuser
+DJANGO_SUPERUSER_USERNAME=aj
+DJANGO_SUPERUSER_EMAIL=wordle@wordle.com
+DJANGO_SUPERUSER_PASSWORD=wordle2020
+
+# Run the Django shell to create the superuser
+echo "
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+if not User.objects.filter(username='$DJANGO_SUPERUSER_USERNAME').exists():
+    User.objects.create_superuser(
+        username='$DJANGO_SUPERUSER_USERNAME',
+        email='$DJANGO_SUPERUSER_EMAIL',
+        password='$DJANGO_SUPERUSER_PASSWORD'
+    )
+    print('Superuser created successfully.')
+else:
+    print('Superuser already exists.')
+" | python manage.py shell
+### ./1_reset_migrations.sh
+#!/bin/bash
+
+# Navigate to the project directory
+cd /path/to/Wordle
+
+echo "Deleting migrations for the 'frontend' app..."
+find frontend/migrations -type f -name "*.py" ! -name "__init__.py" -delete
+
+echo "Deleting the SQLite database..."
+rm -f db.sqlite3
+
+echo "Recreating initial migrations..."
+python manage.py makemigrations
+
+echo "Applying migrations..."
+python manage.py migrate
+
+echo "All previous migrations and database have been deleted and reset!"

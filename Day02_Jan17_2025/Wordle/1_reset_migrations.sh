@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Navigate to the project directory
-cd /path/to/Wordle
 
 echo "Deleting migrations for the 'frontend' app..."
 find frontend/migrations -type f -name "*.py" ! -name "__init__.py" -delete
