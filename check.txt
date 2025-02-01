@@ -1,0 +1,278 @@
+.
+├── Day01_Jan16_2025
+│   ├── 001_data_types.ipynb
+│   ├── 002_basic_data_structures.ipynb
+│   ├── 003_contorl_flow.ipynb
+│   ├── 004_functions.ipynb
+│   ├── 005_file_handling copy.ipynb
+│   ├── 005_file_handling.ipynb
+│   ├── Resources
+│   │   ├── sales.txt
+│   │   └── server_log.txt
+│   ├── day01_basic_python.py
+│   ├── notes.md
+│   ├── summary.txt
+│   └── todo.md
+├── Day02_Jan17_2025
+│   ├── Wordle
+│   │   ├── 0_RUNPROJ.sh
+│   │   ├── 1_reset_migrations.sh
+│   │   ├── 2_create_super_user.sh
+│   │   ├── 3_create_user.sh
+│   │   ├── 4_create_player.sh
+│   │   ├── 5_create_words.sh
+│   │   ├── Pipfile
+│   │   ├── README.md
+│   │   ├── Wordle
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-311.pyc
+│   │   │   │   ├── settings.cpython-311.pyc
+│   │   │   │   ├── urls.cpython-311.pyc
+│   │   │   │   └── wsgi.cpython-311.pyc
+│   │   │   ├── asgi.py
+│   │   │   ├── settings.py
+│   │   │   ├── urls.py
+│   │   │   └── wsgi.py
+│   │   ├── accounts
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models.py
+│   │   │   ├── templates
+│   │   │   │   └── accounts
+│   │   │   │       ├── login.html
+│   │   │   │       ├── password_reset.html
+│   │   │   │       ├── profile.html
+│   │   │   │       └── register.html
+│   │   │   ├── tests.py
+│   │   │   ├── urls.py
+│   │   │   └── views.py
+│   │   ├── db.sqlite3
+│   │   ├── frontend
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-311.pyc
+│   │   │   │   ├── admin.cpython-311.pyc
+│   │   │   │   ├── apps.cpython-311.pyc
+│   │   │   │   ├── models.cpython-311.pyc
+│   │   │   │   ├── urls.cpython-311.pyc
+│   │   │   │   └── views.cpython-311.pyc
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── migrations
+│   │   │   │   ├── 0001_initial.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── __pycache__
+│   │   │   │       ├── 0001_initial.cpython-311.pyc
+│   │   │   │       └── __init__.cpython-311.pyc
+│   │   │   ├── models.py
+│   │   │   ├── static
+│   │   │   │   ├── accounts
+│   │   │   │   └── frontend
+│   │   │   │       ├── css
+│   │   │   │       │   ├── home.css
+│   │   │   │       │   ├── style.css
+│   │   │   │       │   └── todays_game.css
+│   │   │   │       ├── images
+│   │   │   │       └── js
+│   │   │   │           └── todays_game.js
+│   │   │   ├── templates
+│   │   │   │   └── frontend
+│   │   │   │       ├── base.html
+│   │   │   │       ├── error.html
+│   │   │   │       ├── home.html
+│   │   │   │       └── todays_game.html
+│   │   │   ├── tests.py
+│   │   │   ├── urls.py
+│   │   │   └── views.py
+│   │   ├── how_to_run.txt
+│   │   ├── manage.py
+│   │   └── requirement.txt
+│   ├── day02_topic_practice.py
+│   ├── milstone_Jan27_2025.md
+│   ├── notes.md
+│   └── todo.md
+├── Day03_Jan18_2025
+│   ├── 001_basic_libraries.ipynb
+│   ├── 002_print_to_debug.ipynb
+│   ├── 003_basic_regular_expression.ipynb
+│   ├── day03_topic_practice.py
+│   └── todo.md
+├── Day04_Jan19_2025
+│   ├── 001_object_oriented_all_things.ipynb
+│   ├── 002_list_comprehension.ipynb
+│   ├── 003_list_comprehension_explained.md
+│   ├── day04_topic_practice.py
+│   ├── notes.md
+│   └── todo.md
+├── Day05_Jan20_2025
+│   ├── 001_proper_error_handling.ipynb
+│   ├── 002_importing_packages.ipynb
+│   ├── 00_finance_mini_proj
+│   │   ├── finance
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-311.pyc
+│   │   │   │   ├── __init__.cpython-313.pyc
+│   │   │   │   ├── salary.cpython-311.pyc
+│   │   │   │   ├── salary.cpython-313.pyc
+│   │   │   │   ├── tax.cpython-311.pyc
+│   │   │   │   └── tax.cpython-313.pyc
+│   │   │   ├── salary.py
+│   │   │   └── tax.py
+│   │   ├── main.py
+│   │   └── tests
+│   │       ├── __init__.py
+│   │       ├── __pycache__
+│   │       │   ├── __init__.cpython-311.pyc
+│   │       │   ├── test_salary.cpython-311-pytest-8.3.4.pyc
+│   │       │   ├── test_salary.cpython-311.pyc
+│   │       │   └── tests_tax.cpython-311.pyc
+│   │       ├── test_salary.py
+│   │       └── tests_tax.py
+│   ├── day05_topic_practice.py
+│   ├── notes.md
+│   └── todo.md
+├── Day06_Jan21_2025
+│   ├── 001_dictionary_comprehension.ipynb
+│   ├── 002_set_comprehension.ipynb
+│   ├── 003_iterators.ipynb
+│   ├── 004_generators.ipynb
+│   ├── day06_topic_practice.py
+│   ├── notes.md
+│   └── todo.md
+├── Day07_Jan31_2025
+│   ├── 001_linked_list.ipynb
+│   ├── 002_doubly_linked_list.ipynb
+│   ├── 003_circular_linked_list.ipynb
+│   ├── 004_circular_doubly_linked_list.ipynb
+│   ├── 005_skip_list.ipynb
+│   ├── 006_trees.ipynb
+│   ├── 007_binary_search_tree.ipynb
+│   ├── 008_avl_trees.ipynb
+│   ├── 009_heap_trees.ipynb
+│   ├── notes.md
+│   └── todo.md
+├── Day08
+│   ├── 001_error_handling.ipynb
+│   ├── 002_map.ipynb
+│   ├── 003_filter.ipynb
+│   ├── 004_reduce.ipynb
+│   ├── ALGOS
+│   │   ├── 001_bubble_sort_sorting_algorithms.ipynb
+│   │   ├── 002_selection_sort_sorting_algorithms.ipynb
+│   │   ├── 003_insertion_sort_sorting_algorithms.ipynb
+│   │   ├── 004_merge_sort_sorting_algorithms.ipynb
+│   │   ├── 005_quick_sort_sorting_algorithms.ipynb
+│   │   ├── 006_heap_sort_sorting_algorithms.ipynb
+│   │   ├── 007_counting_sort_sorting_algorithms.ipynb
+│   │   ├── 008_radix_sort_sorting_algorithms.ipynb
+│   │   ├── 009_bucket_sort_sorting_algorithms.ipynb
+│   │   ├── 010_tim_sort_sorting_algorithms.ipynb
+│   │   ├── 011_intro_sort_sorting_algorithms.ipynb
+│   │   ├── 012_linear_search_searching_algorithms.ipynb
+│   │   ├── 013_binary_search_searching_algorithms.ipynb
+│   │   ├── 014_interpolation_search_searching_algorithms.ipynb
+│   │   ├── 015_exponential_search_searching_algorithms.ipynb
+│   │   ├── 016_fibonacci_search_searching_algorithms.ipynb
+│   │   ├── 017_depthfirst_search_dfs_searching_algorithms.ipynb
+│   │   ├── 018_breadthfirst_search_bfs_searching_algorithms.ipynb
+│   │   ├── 019_understanding_recursion_recursion_basics.ipynb
+│   │   ├── 020_recursion_trees_and_visualization_recursion_basics.ipynb
+│   │   ├── 021_factorial_calculation_recursion_basics.ipynb
+│   │   ├── 022_fibonacci_sequence_computation_recursion_basics.ipynb
+│   │   ├── 023_tower_of_hanoi_recursion_basics.ipynb
+│   │   ├── 024_recursive_sorting_recursion_basics.ipynb
+│   │   ├── 025_recurrence_relations_recursion_basics.ipynb
+│   │   ├── 026_solving_recurrences_recursion_basics.ipynb
+│   │   ├── 027_big_o_big_theta_and_big_omega_notation_complexity_analysis.ipynb
+│   │   ├── 028_time_complexity_complexity_analysis.ipynb
+│   │   ├── 029_space_complexity_complexity_analysis.ipynb
+│   │   ├── 030_bestcase_worstcase_and_averagecase_analysis_complexity_analysis.ipynb
+│   │   ├── 031_divide_and_conquer_algorithm_design_paradigms.ipynb
+│   │   ├── 032_dynamic_programming_algorithm_design_paradigms.ipynb
+│   │   ├── 033_greedy_algorithms_algorithm_design_paradigms.ipynb
+│   │   ├── 034_backtracking_algorithm_design_paradigms.ipynb
+│   │   ├── 035_branch_and_bound_algorithm_design_paradigms.ipynb
+│   │   ├── 036_arrays_and_linked_lists_data_structures.ipynb
+│   │   ├── 037_stacks_and_queues_data_structures.ipynb
+│   │   ├── 038_trees_and_graphs_data_structures.ipynb
+│   │   └── 039_hash_tables_data_structures.ipynb
+│   ├── notes.md
+│   ├── script.sh
+│   └── todo.md
+├── Day09
+│   ├── notes.md
+│   └── todo.md
+├── Day10
+│   ├── notes.md
+│   └── todo.md
+├── Day11
+│   ├── notes.md
+│   └── todo.md
+├── Day12
+│   ├── notes.md
+│   └── todo.md
+├── Day13
+│   ├── notes.md
+│   └── todo.md
+├── Day14
+│   ├── notes.md
+│   └── todo.md
+├── Day15
+│   ├── notes.md
+│   └── todo.md
+├── Day16
+│   ├── notes.md
+│   └── todo.md
+├── Day17
+│   ├── notes.md
+│   └── todo.md
+├── Day18
+│   ├── notes.md
+│   └── todo.md
+├── Day19
+│   ├── notes.md
+│   └── todo.md
+├── Day20
+│   ├── notes.md
+│   └── todo.md
+├── Day21
+│   ├── notes.md
+│   └── todo.md
+├── Day22
+│   ├── notes.md
+│   └── todo.md
+├── Day23
+│   ├── notes.md
+│   └── todo.md
+├── Day24
+│   ├── notes.md
+│   └── todo.md
+├── Day25
+│   ├── notes.md
+│   └── todo.md
+├── Day26
+│   ├── notes.md
+│   └── todo.md
+├── Day27
+│   ├── notes.md
+│   └── todo.md
+├── Day28
+│   ├── notes.md
+│   └── todo.md
+├── Day29
+│   ├── notes.md
+│   └── todo.md
+├── README.md
+├── Resources
+│   ├── helpful_links.txt
+│   └── references.md
+├── check.txt
+├── idk.md
+└── test.txt
+
+57 directories, 219 files
