@@ -13,6 +13,9 @@ PROJECT_NAME=$1
 APP_NAME=$2
 
 echo "Setting up Django project: $PROJECT_NAME with app: $APP_NAME"
+# Create the project directory
+mkdir $PROJECT_NAME
+cd $PROJECT_NAME
 
 # Create virtual environment
 python3 -m venv venv
@@ -26,9 +29,8 @@ pip install django
 pip freeze > requirements.txt
 
 # Create Django project
-django-admin startproject config
+django-admin startproject config .
 
-cd config
 
 # Create the specified app
 python manage.py startapp $APP_NAME
@@ -94,7 +96,7 @@ cat <<EOL > accounts/templates/accounts/index.html
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">My Django App</a>
+            <a class="navbar-brand" href="#">$PROJECT_NAME</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
@@ -105,7 +107,7 @@ cat <<EOL > accounts/templates/accounts/index.html
     </nav>
     <div class="container mt-5">
         <div class="jumbotron bg-light p-5">
-            <h1 class="display-4">Welcome to My Django App</h1>
+            <h1 class="display-4">Welcome to $PROJECT_NAME</h1>
             <p class="lead">This is a simple Django app with user authentication.</p>
             <a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Get Started</a>
         </div>
