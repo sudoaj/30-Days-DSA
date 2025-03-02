@@ -1,0 +1,187 @@
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\usepackage{graphicx}
+\setlength{\multicolsep}{-3.0pt}
+\setlength{\columnsep}{-1pt}
+\input{glyphtounicode}
+
+\RequirePackage{tikz}
+\RequirePackage{xcolor}
+
+\definecolor{cvblue}{HTML}{0E5484}
+\definecolor{black}{HTML}{130810}
+\definecolor{darkcolor}{HTML}{0F4539}
+\definecolor{cvgreen}{HTML}{3BD80D}
+\definecolor{taggreen}{HTML}{00E278}
+\definecolor{SlateGrey}{HTML}{2E2E2E}
+\definecolor{LightGrey}{HTML}{666666}
+\colorlet{name}{black}
+\colorlet{tagline}{darkcolor}
+\colorlet{heading}{darkcolor}
+\colorlet{headingrule}{cvblue}
+\colorlet{accent}{darkcolor}
+\colorlet{emphasis}{SlateGrey}
+\colorlet{body}{LightGrey}
+
+\usepackage{CormorantGaramond}
+\usepackage{charter}
+
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.19in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.4in}
+\urlstyle{same}
+
+\definecolor{airforceblue}{rgb}{0.36, 0.54, 0.66}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\pdfgentounicode=1
+
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-1pt}}
+  }
+}
+
+\newcommand{\classesList}[4]{
+    \item\small{
+        {#1 #2 #3 #4 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{\large#1} & \textbf{\small #2} \\
+      \textit{\large#3} & \textit{\small #4} \\
+      
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSingleSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{\large#1} & \textbf{\small #2} \\
+      
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textbf{\small #2}\\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.1in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\newcommand\sbullet[1][.5]{\mathbin{\vcenter{\hbox{\scalebox{#1}{$\bullet$}}}}}
+
+\begin{document}
+
+\begin{center}
+    {\Huge ABDULSALAM AJAY} \\ \vspace{2pt} 
+    {+1 404-980-7539} ~ 
+    \small{-}
+    \href{mailto:dev.aj@icloud.com}{\color{blue}{dev.aj@icloud.com}} ~ 
+    \small{-}
+    \href{https://github.com/Sudoaj}{ \color{blue}{github.com/Sudoaj}} ~
+    \vspace{-7pt}
+\end{center}
+
+\section{\color{airforceblue}EDUCATION}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Georgia State University}{Atlanta, GA}
+      {Bachelor of Science in Computer Science}{2018 - 2022}
+    \resumeSubheading
+      {Georgia State University Perimeter College}{Atlanta, GA}
+      {Associate of Science in Computer Science}{2016 - 2018}
+  \resumeSubHeadingListEnd
+  
+\section{\color{airforceblue}TECHNICAL SKILLS}
+ \begin{itemize}[leftmargin=0in, label={}]
+    \small{\item{
+     \textbf{Languages:}{ Java, JavaScript, SQL, .NET, AngularJS, React Native} \\
+     \textbf{Technologies:}{ Firebase, SQL Server, Docker, AWS} \\
+     \textbf{Soft Skills:}{ Team Leadership, Problem Solving, Effective Communication, Agile Project Management} \\
+     }}
+ \end{itemize}
+ 
+\section{\color{airforceblue}EXPERIENCE}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Junior .NET/ Angular Developer}{May 2022 – April 2023}
+      {Cognizant Technology Solutions, Atlanta, GA}{}
+      \resumeItemListStart
+        \resumeItem{Engineered a dashboard website with AngularJS and .NET to enhance data visualizationand client experience.}
+        \resumeItem{Leveraged SQL Server for data retrieval, boosting functionality and data precision.}
+        \resumeItem{Participated in full software development lifecycle, ensuring timely delivery and quality code.}
+      \resumeItemListEnd  
+    \resumeSubheading
+      {Media Technology Operations Associate}{July 2021 – May 2022}
+      {Creative Media Industry Institute, Georgia State University, Atlanta, GA}{}
+      \resumeItemListStart
+        \resumeItem{Supported classrooms and labs with projectors, cameras, and various teaching equipment.}
+        \resumeItem{Coordinated lab operations for Virtual Reality Demo facilities and Makerspace Augmented reality cave.}
+        \resumeItem{Provided support for immersive media software technologies including Maya, Unreal, Unity, Spark AR, Xsens.}
+      \resumeItemListEnd  
+    \resumeSubheading
+      {Technical Support Representative}{January 2017 – December 2017}
+      {Computer Generated Solution, Atlanta, GA}{}
+      \resumeItemListStart
+        \resumeItem{Developed problem-solving strategies for diverse customer support scenarios.}
+        \resumeItem{Specialized in troubleshooting and resolving a range of Windows system issues.}
+      \resumeItemListEnd  
+  \resumeSubHeadingListEnd
+
+\section{\color{airforceblue}PROJECTS}    
+    \resumeItemListStart
+        \resumeItem{\textbf{Mentor Matching App} (React Native): A multiplatform app for matching mentors and mentees, featuring a robust Firebase backend and custom UI/UX. \href{https://github.com/Sudoaj}{\color{blue}\underline{GitHub}}}
+        \resumeItem{\textbf{UT Hermes Android Application} (Java, Android): An app enabling mass message distribution across multiple platforms, developed with a focus on scalability and efficiency. \href{https://github.com/Sudoaj}{\color{blue}\underline{GitHub}}}
+        \resumeItem{\textbf{Java Application for Business Record Keeping} (Java, SQL): A desktop application designed to automate and streamline business paperwork and record management. \href{https://github.com/Sudoaj}{\color{blue}\underline{GitHub}}}
+    \resumeItemListEnd  
+
+\section{\color{airforceblue}EXTRACURRICULAR ACTIVITIES}
+    \resumeItemListStart
+        \resumeItem{\textbf{Hack GSU}: Participated in the school-hosted hackathon, demonstrating rapid development and teamwork. Led a team of 4 students to develop a fun and interactive website in less than 3 hours. Competed with over 20+ teams.}
+        \resumeItem{\textbf{Hack GSU Website}: Contributed to the development of the main event website for the Hack GSU hackathon. Collaborated with a team to implement the website using HTML/CSS and JavaScript.}
+        \resumeItem{\textbf{Mk Agriculture}: Played a key role in branding and digital presence for a family-owned agricultural business. Engineered the brand identity and digital strategy, significantly contributing to the business’s market positioning and customer engagement.}
+    \resumeItemListEnd  
+
+\end{document}
